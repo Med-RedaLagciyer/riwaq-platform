@@ -3,9 +3,15 @@ backend/vendor/
 backend/var/cache/
 backend/var/log/
 backend/var/sessions/
+backend/.env
 backend/.env.local
 backend/.env.local.php
 backend/.env.*.local
+# JWT Keys
+backend/config/jwt/
+
+backend/config/secrets/dev/dev.decrypt.private.php
+
 
 # FRONTEND
 frontend/node_modules/
