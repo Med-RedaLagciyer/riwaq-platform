@@ -1,4 +1,4 @@
-# Riwaq - Local Development Environement with Docker
+# Riwaq
 
 ## Services
 
