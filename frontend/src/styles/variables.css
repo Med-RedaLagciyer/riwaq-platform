@@ -1,0 +1,54 @@
+:root {
+    /* Background colors */
+    --bg-base: #EEEDF4;
+    --bg-card: #F7F6FC;
+    --bg-card-alt: #E8E7F0;
+    --bg-input: #E8E7F0;
+
+    /* Border colors */
+    --border-default: #E0DFEC;
+    --border-input: #D8D7E8;
+    --border-focus: rgba(0, 0, 0, 0.25);
+
+    /* Text colors */
+    --text-primary: #111018;
+    --text-secondary: #60607A;
+    --text-muted: #9898B0;
+
+    /* Accent color */
+    --accent: #5E5CE6;
+    --accent-light: #7D7AFF;
+    --accent-shadow: rgba(94, 92, 230, 0.28);
+    --accent-hover: rgba(94, 92, 230, 0.44);
+
+    /* Status colors */
+    --status-success: #34C759;
+    --status-error: #FF3B30;
+    --status-warning: #FF9500;
+}
+
+[data-theme="dark"] {
+    /* Background colors */
+    --bg-base: #0E0D14;
+    --bg-card: #161520;
+    --bg-card-alt: #1C1B28;
+    --bg-input: #1E1D2C;
+
+    /* Border colors */
+    --border-default: #252436;
+    --border-input: #2A2940;
+    --border-focus: rgba(255, 255, 255, 0.25);
+
+    /* Text colors */
+    --text-primary: #F0EFF8;
+    --text-secondary: #8A8A9A;
+    --text-muted: #505060;
+}
+
+/* Fonts */
+:root {
+    --font-display: 'Clash Display', sans-serif;
+    --font-ui: 'Urbanist', sans-serif;
+    --font-body: 'Sora', sans-serif;
+    --font-arabic: 'Rakkas', sans-serif;
+}
