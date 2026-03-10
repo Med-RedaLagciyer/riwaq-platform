@@ -1,0 +1,49 @@
+# SYMFONY / PHP
+backend/vendor/
+backend/var/cache/
+backend/var/log/
+backend/var/sessions/
+backend/.env.local
+backend/.env.local.php
+backend/.env.*.local
+
+# FRONTEND
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+
+# ENVIRONMENT / CREDENTIALS
+.env
+.env.local
+.env.*.local
+*.env
+
+
+# DOCKER
+.docker/
+
+
+# IDE & EDITORS
+.idea/
+.vscode/
+*.swp
+*.swo
+.history/
+
+
+# OS FILES
+.DS_Store
+.DS_Store?
+Thumbs.db
+desktop.ini
+
+
+# LOGS
+*.log
+logs/
+
+
+# MISC
+*.zip
+*.tar.gz

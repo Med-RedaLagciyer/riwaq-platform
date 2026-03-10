@@ -1,0 +1,132 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: riwaq_postgres
+    environment:
+      POSTGRES_DB: riwaq_db
+      POSTGRES_USER: riwaq_user
+      POSTGRES_PASSWORD: riwaq_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U riwaq_user -d riwaq_db"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+      start_period: 10s # waits 10 secs for postgres to boot before running healthchecks
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+  
+  redis:
+    image: redis:7-alpine
+    container_name: riwaq_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: riwaq_php
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M # to prevent infinite loops and memory leaks from eating all RAM
+  
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: riwaq_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/var/www/backend
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - nginx_logs:/var/log/nginx # makes sure the logs stays even when restarting
+    depends_on:
+      - php
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    container_name: riwaq_minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: riwaq_user
+      MINIO_ROOT_PASSWORD: riwaq_pass
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 15s
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: riwaq_mailpit
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+
+  frontend:
+    image: node:20-alpine
+    container_name: riwaq_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    depends_on:
+      - nginx
+    networks:
+      - riwaq_network
+    restart: unless-stopped
+
+networks:
+  riwaq_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  nginx_logs:
