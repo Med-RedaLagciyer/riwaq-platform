@@ -2,7 +2,8 @@
 
 namespace App\Entity\User;
 
-use App\Entity\Traits\HasTimestamps;
+use App\Entity\Traits\HasCreatedAt;
+use App\Entity\Traits\HasUpdatedAt;
 use App\Entity\Traits\HasUuidV7;
 use App\Entity\User\UserStatus;
 use App\Repository\User\UserRepository;
@@ -19,7 +20,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use HasUuidV7;
-    use HasTimestamps;
+    use HasCreatedAt;
+    use HasUpdatedAt;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
