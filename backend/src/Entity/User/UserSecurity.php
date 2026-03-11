@@ -5,6 +5,7 @@ namespace App\Entity\User;
 use App\Entity\Traits\HasCreatedAt;
 use App\Entity\Traits\HasUpdatedAt;
 use App\Entity\Traits\HasUuidV7;
+use App\Entity\User\User;
 use App\Repository\User\UserSecurityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
