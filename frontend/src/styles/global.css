@@ -117,6 +117,11 @@ textarea:focus {
 
 /* Text selection */
 ::selection {
+    background: var(--text-primary);
+    color: var(--bg-base);
+}
+
+[data-theme="dark"] ::selection {
     background: var(--accent);
     color: #fff;
 }

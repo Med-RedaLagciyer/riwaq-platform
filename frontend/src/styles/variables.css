@@ -3,7 +3,7 @@
     --bg-base: #EEEDF4;
     --bg-card: #F7F6FC;
     --bg-card-alt: #E8E7F0;
-    --bg-input: #E8E7F0;
+    --bg-input: #edecf7;
 
     /* Border colors */
     --border-default: #E0DFEC;
@@ -29,14 +29,14 @@
 
 [data-theme="dark"] {
     /* Background colors */
-    --bg-base: #0E0D14;
-    --bg-card: #161520;
-    --bg-card-alt: #1C1B28;
-    --bg-input: #1E1D2C;
+    --bg-base: #111111;
+    --bg-card: #1A1A1A;
+    --bg-card-alt: #202020;
+    --bg-input: #1E1E1E;
 
     /* Border colors */
-    --border-default: #252436;
-    --border-input: #2A2940;
+    --border-default: #2A2A2A;
+    --border-input: #2E2E2E;
     --border-focus: rgba(255, 255, 255, 0.25);
 
     /* Text colors */

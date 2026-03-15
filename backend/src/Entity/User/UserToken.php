@@ -5,6 +5,7 @@ namespace App\Entity\User;
 use App\Entity\Traits\HasCreatedAt;
 use App\Entity\Traits\HasUuidV7;
 use App\Entity\User\User;
+use App\Enum\UserTokenType;
 use App\Repository\User\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,8 +21,8 @@ class UserToken
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private ?User $user = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $type = null;
+    #[ORM\Column(length: 50, enumType: UserTokenType::class)]
+    private ?UserTokenType $type = null;
 
     #[ORM\Column(length: 64)]
     private ?string $token = null;
@@ -47,12 +48,12 @@ class UserToken
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?UserTokenType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(UserTokenType $type): static
     {
         $this->type = $type;
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 40px; }
+            .container { background: #fff; padding: 40px; border-radius: 8px; max-width: 500px; margin: 0 auto; }
+            .code { font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #333; text-align: center; padding: 20px 0; }
+            .footer { color: #999; font-size: 12px; margin-top: 20px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Verify your email</h2>
+            <p>Use the code below to verify your email address:</p>
+            <div class="code">{{ code }}</div>
+            <p>This code expires in {{ expires_in }}.</p>
+            <p class="footer">If you didn't request this, you can safely ignore this email.</p>
+        </div>
+    </body>
+</html>

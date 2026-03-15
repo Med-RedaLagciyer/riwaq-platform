@@ -1,0 +1,16 @@
+.code-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.code-input__box {
+    width: 48px !important;
+    height: 56px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 14px;
+    caret-color: var(--accent);
+}

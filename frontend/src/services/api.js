@@ -11,19 +11,55 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const token = useAuthStore.getState().token
-    
-    if(token) {
+
+    if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }
 
     return config
 })
 
-api.interceptors.response.use((response) => response, (error) => {
-    if(error.response?.status === 401) {
-        useAuthStore.getState().clearAuth()
-        window.location.href = '/login'
+api.interceptors.response.use((response) => response, async (error) => {
+    const originalRequest = error.config
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+
+        const refreshToken = useAuthStore.getState().refreshToken
+
+        if (!refreshToken) {
+            useAuthStore.getState().clearAuth()
+            window.location.href = '/login'
+            return Promise.reject(error)
+        }
+
+        try {
+            const response = await axios.post('http://localhost/api/auth/refresh', {
+                refresh_token: refreshToken,
+            })
+
+            const { token, refresh_token } = response.data
+
+            const state = useAuthStore.getState()
+            useAuthStore.getState().setAuth(state.user, token, state.role, refresh_token)
+
+            return axios({
+                method: originalRequest.method,
+                url: originalRequest.baseURL + originalRequest.url,
+                data: originalRequest.data,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+        } catch {
+            useAuthStore.getState().clearAuth()
+            window.location.href = '/login'
+            return Promise.reject(error)
+        }
     }
+
     return Promise.reject(error)
 })
 

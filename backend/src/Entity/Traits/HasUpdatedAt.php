@@ -14,6 +14,7 @@ trait HasUpdatedAt
         return $this->updatedAt;
     }
 
+    #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function initializeUpdatedAt(): void
     {

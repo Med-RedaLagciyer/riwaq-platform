@@ -8,8 +8,8 @@ function ProtectedRoute({ children, allowedRoles }) {
         return <Navigate to="/login" replace />
     }
 
-    if (allowedRoles && !allowedRoles.includes(role)) {
-        return <Navigate to="/login" replace />
+    if (allowedRoles && !allowedRoles.some(r => role?.includes(r))) {
+        return <Navigate to="/unauthorized" replace />
     }
 
     return children

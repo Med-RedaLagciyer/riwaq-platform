@@ -21,7 +21,7 @@ class UserRefreshToken
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(length: 64)]
+    #[ORM\Column(length: 255)]
     private ?string $token = null;
 
     #[ORM\Column]

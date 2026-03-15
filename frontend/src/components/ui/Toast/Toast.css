@@ -1,0 +1,107 @@
+.toast-container {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 360px;
+    height: 0;
+}
+
+.toast-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 999px;
+}
+
+.toast {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 999px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-default);
+    background: var(--bg-card);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    transform-origin: top center;
+    will-change: transform, opacity;
+}
+
+.toast__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.toast--success .toast__dot { background: var(--status-success); }
+.toast--error .toast__dot { background: var(--status-error); }
+.toast--info .toast__dot { background: var(--accent); }
+
+.toast__message {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.toast__close {
+    font-size: 11px;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.toast__close:hover {
+    color: var(--text-primary);
+}
+
+.toast--enter {
+    animation: dynamicIslandIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes dynamicIslandIn {
+    0% {
+        clip-path: inset(30% 48% 30% 48% round 999px);
+        opacity: 1;
+        transform: translateY(-4px) scaleX(0.1);
+    }
+    40% {
+        clip-path: inset(0% 0% 0% 0% round 999px);
+        transform: translateY(3px) scaleX(1.02);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(-1px) scaleX(0.99);
+    }
+    100% {
+        clip-path: inset(0% 0% 0% 0% round 999px);
+        transform: translateY(0) scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes dynamicIslandOut {
+    0% {
+        clip-path: inset(0 0% 0 0% round 14px);
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    100% {
+        clip-path: inset(0 45% 0 45% round 999px);
+        opacity: 0;
+        transform: scaleY(0.4);
+    }
+}
+
+.toast--exit {
+    animation: dynamicIslandOut 0.5s ease forwards;
+}

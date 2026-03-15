@@ -2,7 +2,9 @@
 
 namespace App\Repository\User;
 
+use App\Entity\User\User;
 use App\Entity\User\UserToken;
+use App\Enum\UserTokenType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +42,18 @@ class UserTokenRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findLatestVerificationToken(User $user): ?UserToken
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.user = :user')
+            ->andWhere('t.type = :type')
+            ->andWhere('t.usedAt IS NULL')
+            ->setParameter('user', $user)
+            ->setParameter('type', UserTokenType::EMAIL_VERIFICATION)
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
