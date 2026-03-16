@@ -1,99 +1,41 @@
 import './Sidebar.css'
 import { NavLink } from 'react-router-dom'
 import CommandPalette from '../../../../components/ui/CommandPalette/CommandPalette'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState } from 'react'
 import useAuthStore from '../../../../store/useAuthStore'
 import UserMenu from '../UserMenu/UserMenu'
 import { LayoutDashboard, Building2, Settings, ChevronDown, Search } from 'lucide-react'
 import Tooltip from '../../../../components/ui/Tooltip/Tooltip'
+import useSidebarResize from '../../hooks/useSidebarResize'
+import useCommandPalette from '../../hooks/useCommandPalette'
+import NavItem from '../NavItem/NavItem'
 
-const COLLAPSED_WIDTH = 56
-const DEFAULT_WIDTH = 240
-const MAX_WIDTH = 400
-const COLLAPSE_THRESHOLD = 180
+const navGroups = [
+    {
+        items: [
+            { label: 'Dashboard', path: '/management/dashboard', icon: LayoutDashboard },
+            {
+                label: 'Organisations',
+                icon: Building2,
+                children: [
+                    { label: 'All Organisations', path: '/management/organisations' },
+                    { label: 'Create New', path: '/management/organisations/create' },
+                ]
+            },
+        ]
+    },
+    {
+        items: [
+            { label: 'Settings', path: '/management/settings', icon: Settings },
+        ]
+    },
+]
 
 export default function Sidebar() {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const user = useAuthStore((state) => state.user)
-    const [isPaletteOpen, setIsPaletteOpen] = useState(false)
-    const sidebarRef = useRef(null)
-    const [width, setWidth] = useState(DEFAULT_WIDTH)
-    const [isDragging, setIsDragging] = useState(false)
-    const prevWidthRef = useRef(DEFAULT_WIDTH)
-    const startWidthRef = useRef(DEFAULT_WIDTH)
-
-    const isCollapsed = width <= COLLAPSED_WIDTH
-
-    const handleMouseDown = useCallback((e) => {
-        e.preventDefault()
-        startWidthRef.current = width
-        setIsDragging(true)
-    }, [width])
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            if (!isDragging) return
-            const newWidth = e.clientX
-            const clampedWidth = Math.max(COLLAPSED_WIDTH, Math.min(MAX_WIDTH, newWidth))
-            prevWidthRef.current = width
-            setWidth(clampedWidth)
-        }
-
-        const handleMouseUp = () => {
-            if (!isDragging) return
-            setIsDragging(false)
-
-            const isExpanding = width > startWidthRef.current
-
-            if (isExpanding) {
-                if (width > COLLAPSED_WIDTH + 30) {
-                    setWidth(DEFAULT_WIDTH)
-                } else {
-                    setWidth(COLLAPSED_WIDTH)
-                }
-            } else {
-                if (width < COLLAPSE_THRESHOLD) {
-                    setWidth(COLLAPSED_WIDTH)
-                }
-            }
-        }
-
-        window.addEventListener('mousemove', handleMouseMove)
-        window.addEventListener('mouseup', handleMouseUp)
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove)
-            window.removeEventListener('mouseup', handleMouseUp)
-        }
-    }, [isDragging, width])
-
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault()
-                setIsPaletteOpen(true)
-            }
-            if (e.key === 'Escape') {
-                setIsPaletteOpen(false)
-            }
-        }
-
-        window.addEventListener('keydown', handleKeyDown)
-        return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [])
-
-    const navGroups = [
-        {
-            items: [
-                { label: 'Dashboard', path: '/management/dashboard', icon: LayoutDashboard },
-                { label: 'Organisations', path: '/management/organisations', icon: Building2 },
-            ]
-        },
-        {
-            items: [
-                { label: 'Settings', path: '/management/settings', icon: Settings },
-            ]
-        },
-    ]
+    const { sidebarRef, width, isDragging, isCollapsed, handleMouseDown } = useSidebarResize()
+    const { isOpen: isPaletteOpen, open: openPalette, close: closePalette } = useCommandPalette()
 
     const allItems = navGroups.flatMap(group => group.items)
 
@@ -111,49 +53,38 @@ export default function Sidebar() {
             </div>
 
             <nav className="sidebar__nav">
-
                 {isCollapsed ? (
-                    <>
-                        <Tooltip text="⌘K" position="right">
-                            <button
-                                className="sidebar__nav-item sidebar__search--collapsed"
-                                onClick={() => setIsPaletteOpen(true)}
-                            >
-                                <Search size={18} />
-                            </button>
-                        </Tooltip>
-                        <div className="sidebar__divider" />
-                    </>
-                ) : (
-                    <>
-                        <button className="sidebar__search" onClick={() => setIsPaletteOpen(true)}>
-                            <Search size={14} />
-                            <span>Search...</span>
-                            <kbd>⌘K</kbd>
+                    <Tooltip text="⌘K" position="right">
+                        <button
+                            className="sidebar__nav-item sidebar__search--collapsed"
+                            onClick={openPalette}
+                        >
+                            <Search size={18} />
                         </button>
-
-                        <div className="sidebar__divider" />
-                    </>
+                    </Tooltip>
+                ) : (
+                    <button className="sidebar__search" onClick={openPalette}>
+                        <Search size={14} />
+                        <span>Search...</span>
+                        <kbd>⌘K</kbd>
+                    </button>
                 )}
 
                 <CommandPalette
                     key={isPaletteOpen}
                     items={allItems}
                     isOpen={isPaletteOpen}
-                    onClose={() => setIsPaletteOpen(false)}
+                    onClose={closePalette}
                 />
 
                 {navGroups.map((group, groupIndex) => (
                     <div key={groupIndex} className="sidebar__nav-group">
                         {group.items.map((item) => (
-                            <NavLink
-                                key={item.path}
-                                to={item.path}
-                                className={({ isActive }) => `sidebar__nav-item ${isActive ? 'sidebar__nav-item--active' : ''} ${isCollapsed ? 'sidebar__nav-item--collapsed' : ''}`}
-                            >
-                                <item.icon size={18} />
-                                {!isCollapsed && <span>{item.label}</span>}
-                            </NavLink>
+                            <NavItem
+                                key={item.path || item.label}
+                                item={item}
+                                isCollapsed={isCollapsed}
+                            />
                         ))}
                         {groupIndex < navGroups.length - 1 && (
                             <div className="sidebar__divider" />

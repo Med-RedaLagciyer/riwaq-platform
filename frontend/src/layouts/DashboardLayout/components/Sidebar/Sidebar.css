@@ -11,10 +11,10 @@
 }
 
 .sidebar__top {
-    padding: 16px;
-    border-bottom: 1px solid var(--border-default);
+    padding: 16px 16px 8px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .sidebar__nav {
@@ -78,6 +78,7 @@
     color: var(--text-secondary);
     cursor: pointer;
     transition: border-color 0.15s ease, color 0.15s ease;
+    margin-bottom: 8px;
 }
 
 .sidebar__search:hover {

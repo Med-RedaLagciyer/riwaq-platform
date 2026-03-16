@@ -1,0 +1,99 @@
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-item__trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: background-color 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+}
+
+.nav-item__trigger:hover {
+    background-color: var(--bg-card-alt);
+    color: var(--text-primary);
+}
+
+.nav-item__trigger--open {
+    color: var(--text-primary);
+}
+
+.nav-item__chevron {
+    margin-left: auto;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.nav-item__chevron--open {
+    transform: rotate(180deg);
+}
+
+.nav-item__children {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 16px;
+}
+
+.nav-item__child {
+    display: flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-item__child:hover {
+    background-color: var(--bg-card-alt);
+    color: var(--text-primary);
+}
+
+.nav-item__child--active {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.nav-item__link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-item__link:hover {
+    background-color: var(--bg-card-alt);
+    color: var(--text-primary);
+}
+
+.nav-item__link--active {
+    background-color: var(--bg-card-alt);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.nav-item__link--collapsed {
+    justify-content: center;
+    padding: 8px;
+}

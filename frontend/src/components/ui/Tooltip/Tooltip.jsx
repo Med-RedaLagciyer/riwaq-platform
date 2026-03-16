@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Tooltip.css'
 
-export default function Tooltip({ text, children, position = 'top' }) {
+export default function Tooltip({ text, children, position = 'top', disabled = false }) {
     const [visible, setVisible] = useState(false)
     const [coords, setCoords] = useState(null)
     const wrapperRef = useRef(null)
@@ -62,6 +62,7 @@ export default function Tooltip({ text, children, position = 'top' }) {
             ref={wrapperRef}
             className="tooltip-wrapper"
             onMouseEnter={() => {
+                if (disabled) return
                 updateCoords()
                 requestAnimationFrame(() => setVisible(true))
             }}
@@ -70,7 +71,7 @@ export default function Tooltip({ text, children, position = 'top' }) {
             {children}
             {createPortal(
                 <AnimatePresence>
-                    {visible && coords && (
+                    {visible && coords && !disabled && (
                         <motion.div
                             className="tooltip--portal"
                             style={getStyle()}

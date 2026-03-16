@@ -7,4 +7,11 @@
 .dashboard__main {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard__content {
+    flex: 1;
+    padding: 24px;
 }
