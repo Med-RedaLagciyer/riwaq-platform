@@ -22,9 +22,9 @@
     --accent-hover: rgba(94, 92, 230, 0.44);
 
     /* Status colors */
-    --status-success: #34C759;
-    --status-error: #FF3B30;
-    --status-warning: #FF9500;
+    --status-success: #00EBC7;
+    --status-error: #FF5470;
+    --status-warning: #F9BC60;
 }
 
 [data-theme="dark"] {

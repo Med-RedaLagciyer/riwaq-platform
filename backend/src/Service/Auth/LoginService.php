@@ -3,22 +3,28 @@
 namespace App\Service\Auth;
 
 use App\Dto\Auth\LoginInput;
+use App\Entity\User\UserLoginLog;
 use App\Repository\User\UserProfileRepository;
 use App\Repository\User\UserRepository;
+use App\Repository\User\UserSecurityRepository;
+use App\Service\Auth\RefreshTokenService;
+use App\Service\Auth\UserSecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\Service\Auth\RefreshTokenService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginService
 {
     public function __construct(
+        private EntityManagerInterface $em,
         private UserRepository $userRepository,
+        private UserProfileRepository $userProfileRepository,
         private JWTTokenManagerInterface $jwtManager,
         private UserPasswordHasherInterface $passwordHasher,
-        private UserProfileRepository $userProfileRepository,
         private RefreshTokenService $refreshTokenService,
+        private UserSecurityService $userSecurityService,
+        private UserSecurityRepository $userSecurityRepository,
     ) {}
 
     public function login(LoginInput $input, Request $request): array
@@ -30,7 +36,14 @@ class LoginService
             return ['success' => false, 'message' => 'Invalid credentials'];
         }
 
+        $userSecurity = $this->userSecurityRepository->findOneBy(['user' => $user]);
+
+        if ($userSecurity && $userSecurity->getLockedUntil() && $userSecurity->getLockedUntil() > new \DateTimeImmutable()) {
+            return ['success' => false, 'message' => 'Account is temporarily locked. Please try again later.'];
+        }
+
         if (!$this->passwordHasher->isPasswordValid($user, $input->password)) {
+            $this->userSecurityService->recordFailedLogin($user);
             return ['success' => false, 'message' => 'Invalid credentials'];
         }
 
@@ -61,6 +74,17 @@ class LoginService
             $request->getClientIp(),
             $request->headers->get('User-Agent', '')
         );
+
+        $loginLog = new UserLoginLog();
+        $loginLog->setUser($user);
+        $loginLog->setIpAddress($request->getClientIp() ?? 'unknown');
+        $loginLog->setUserAgent($request->headers->get('User-Agent', ''));
+        $loginLog->setIsSuspicious(false);
+
+        $this->em->persist($loginLog);
+        $this->em->flush();
+
+        $this->userSecurityService->clearFailedLogins($user);
 
         return [
             'success' => true,

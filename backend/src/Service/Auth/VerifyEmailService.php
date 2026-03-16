@@ -4,6 +4,7 @@ namespace App\Service\Auth;
 
 use App\Dto\Auth\VerifyEmailInput;
 use App\Entity\User\UserStatusLog;
+use App\Enum\UserTokenType;
 use App\Repository\User\UserRepository;
 use App\Repository\User\UserStatusRepository;
 use App\Repository\User\UserTokenRepository;
@@ -28,7 +29,7 @@ class VerifyEmailService
         }
 
         // check if token exist
-        $token = $this->userTokenRepository->findLatestVerificationToken($user);
+        $token = $this->userTokenRepository->findLatestVerificationToken($user, UserTokenType::EMAIL_VERIFICATION);
         if (!$token) {
             return ['success' => false, 'message' => 'invalid code']; 
         }

@@ -7,7 +7,10 @@ export default function AnimatedRoutes() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div key={location.pathname} style={{ width: '100%' }}>
+            <motion.div
+                key={location.pathname}
+                style={{ width: '100%', minHeight: '100vh', backgroundColor: 'var(--bg-base)' }}
+            >
                 <Outlet />
             </motion.div>
         </AnimatePresence>

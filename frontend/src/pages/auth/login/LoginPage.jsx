@@ -11,6 +11,8 @@ import useAuthStore from '../../../store/useAuthStore'
 import useToastStore from '../../../store/useToastStore'
 import getHomeRoute from '../../../utils/getHomeRoute'
 import { useMutation } from '@tanstack/react-query'
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -57,44 +59,69 @@ export default function LoginPage() {
             showBack={step === 2}
             onBack={() => setStep(1)}
         >
-            {step === 1 && (
-                <form className="auth-form" onSubmit={step1Form.handleSubmit(handleStep1Submit)}>
-                    <div className="form-group">
-                        <div className="form-label">Email or username</div>
-                        <input
-                            className={`form-input ${step1Form.formState.errors.identifier ? 'form-input--error' : ''}`}
-                            placeholder="Email or username"
-                            autoFocus
-                            {...step1Form.register('identifier')}
-                        />
-                        {step1Form.formState.errors.identifier && (
-                            <span className="form-error">{step1Form.formState.errors.identifier.message}</span>
-                        )}
-                    </div>
-                    <button type="submit" className="primary-button">
-                        Continue
-                    </button>
-                </form>
-            )}
-            {step === 2 && (
-                <form className="auth-form" onSubmit={step2Form.handleSubmit(handleStep2Submit)}>
-                    <div className="form-group">
-                        <div className="form-label">Password</div>
-                        <PasswordInput
-                            className={`form-input ${step2Form.formState.errors.password ? 'form-input--error' : ''}`}
-                            placeholder="Password"
-                            autoFocus
-                            {...step2Form.register('password')}
-                        />
-                        {step2Form.formState.errors.password && (
-                            <span className="form-error">{step2Form.formState.errors.password.message}</span>
-                        )}
-                    </div>
-                    <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                        {mutation.isPending ? 'Signing in...' : 'Sign in'}
-                    </button>
-                </form>
-            )}
+            <AnimatePresence mode="wait">
+                {step === 1 && (
+                    <motion.div
+                        key="step1"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                    >
+                        <form className="auth-form" onSubmit={step1Form.handleSubmit(handleStep1Submit)}>
+                            <div className="form-group">
+                                <div className="form-label">Email or username</div>
+                                <input
+                                    className={`form-input ${step1Form.formState.errors.identifier ? 'form-input--error' : ''}`}
+                                    placeholder="Email or username"
+                                    autoFocus
+                                    {...step1Form.register('identifier')}
+                                />
+                                {step1Form.formState.errors.identifier && (
+                                    <span className="form-error">{step1Form.formState.errors.identifier.message}</span>
+                                )}
+                            </div>
+                            <button type="submit" className="primary-button">
+                                Continue
+                            </button>
+                            <a href="/register" className="auth-link">
+                                Don't have an account? Register
+                            </a>
+                        </form>
+                    </motion.div>
+                )}
+                {step === 2 && (
+                    <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                    >
+                        <form className="auth-form" onSubmit={step2Form.handleSubmit(handleStep2Submit)}>
+                            <div className="form-group">
+                                <div className="form-label">Password</div>
+                                <PasswordInput
+                                    className={`form-input ${step2Form.formState.errors.password ? 'form-input--error' : ''}`}
+                                    placeholder="Password"
+                                    autoFocus
+                                    {...step2Form.register('password')}
+                                />
+                                {step2Form.formState.errors.password && (
+                                    <span className="form-error">{step2Form.formState.errors.password.message}</span>
+                                )}
+                            </div>
+                            <button type="submit" className="primary-button" disabled={mutation.isPending}>
+                                {mutation.isPending ? 'Signing in...' : 'Sign in'}
+                            </button>
+
+                            <a href="/forgot-password" className="auth-link">
+                                Forgot your password?
+                            </a>
+                        </form>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </AuthLayout>
     )
 }

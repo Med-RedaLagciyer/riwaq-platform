@@ -71,6 +71,9 @@ export default function RegisterPage() {
                 <button type="button" onClick={() => addToast('Email sent successfully', 'success')}>
                     Test toast
                 </button>
+                <a href="/login" className="auth-link">
+                    Already have an account? Sign in
+                </a>
             </form>
         </AuthLayout>
     )

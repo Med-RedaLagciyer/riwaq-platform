@@ -43,14 +43,14 @@ class UserTokenRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findLatestVerificationToken(User $user): ?UserToken
+    public function findLatestVerificationToken(User $user, UserTokenType $type): ?UserToken
     {
         return $this->createQueryBuilder('t')
             ->where('t.user = :user')
             ->andWhere('t.type = :type')
             ->andWhere('t.usedAt IS NULL')
             ->setParameter('user', $user)
-            ->setParameter('type', UserTokenType::EMAIL_VERIFICATION)
+            ->setParameter('type', $type)
             ->orderBy('t.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()

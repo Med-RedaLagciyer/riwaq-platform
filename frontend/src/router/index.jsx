@@ -6,6 +6,9 @@ import LoginPage from '../pages/auth/login/LoginPage'
 import VerifyEmailPage from '../pages/auth/verify-email/VerifyEmailPage'
 import CompleteRegistrationPage from '../pages/auth/complete-registration/CompleteRegistrationPage'
 import AnimatedRoutes from '../components/routing/AnimatedRoutes'
+import ForgotPasswordPage from '../pages/auth/forgot-password/ForgotPasswordPage'
+import VerifyResetCodePage from '../pages/auth/verify-reset-code/VerifyResetCodePage'
+import ResetPasswordPage from '../pages/auth/reset-password/ResetPasswordPage'
 
 const router = createBrowserRouter([
     {
@@ -20,6 +23,30 @@ const router = createBrowserRouter([
                 element: (
                     <GuestRoute>
                         <LoginPage />
+                    </GuestRoute>
+                ),
+            },
+            {
+                path: '/forgot-password',
+                element: (
+                    <GuestRoute>
+                        <ForgotPasswordPage />
+                    </GuestRoute>
+                ),
+            },
+            {
+                path: '/verify-reset-code',
+                element: (
+                    <GuestRoute>
+                        <VerifyResetCodePage />
+                    </GuestRoute>
+                ),
+            },
+            {
+                path: '/reset-password',
+                element: (
+                    <GuestRoute>
+                        <ResetPasswordPage />
                     </GuestRoute>
                 ),
             },

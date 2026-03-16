@@ -3,6 +3,7 @@
 namespace App\Service\Auth;
 
 use App\Dto\Auth\RegisterInput;
+use App\Email\Auth\AccountExistsEmail;
 use App\Email\Auth\VerificationCodeEmail;
 use App\Entity\User\User;
 use App\Entity\User\UserProfile;
@@ -13,6 +14,7 @@ use App\Enum\UserTokenType;
 use App\Repository\User\UserRepository;
 use App\Repository\User\UserStatusRepository;
 use App\Repository\User\UserTokenRepository;
+use App\Service\Auth\UserSecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -26,6 +28,7 @@ class RegisterService
         private UserTokenRepository $userTokenRepository,
         private MailerInterface $mailer,
         private JWTTokenManagerInterface $jwtManager,
+        private UserSecurityService $userSecurityService,
     ) {}
 
     public function register(RegisterInput $input): array
@@ -34,7 +37,10 @@ class RegisterService
 
         if ($existingUser) {
             if ($existingUser->getCurrentStatus()->getName() === 'pending_verification') {
-                // generate a new code and send a new email
+                if (!$this->userSecurityService->checkEmailRateLimit($existingUser)) {
+                    return ['success' => false, 'message' => 'Too many attempts. Please try again later.'];
+                }
+
                 $plainCode = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
                 $hashedCode = hash('sha256', $plainCode);
 
@@ -48,14 +54,13 @@ class RegisterService
                 $this->em->flush();
 
                 $this->mailer->send(new VerificationCodeEmail($existingUser->getEmail(), $plainCode));
+                $this->userSecurityService->recordEmailSent($existingUser);
 
                 return ['success' => true, 'message' => 'check your email'];
             }
 
             if ($existingUser->getCurrentStatus()->getName() === 'active') {
                 if ($existingUser->getPassword() === null) {
-                    // email verified but registration not completed
-                    // send a new temporary token so they can complete registration
                     $temporaryToken = $this->jwtManager->createFromPayload($existingUser, [
                         'scope' => 'complete_registration',
                         'email' => $existingUser->getEmail(),
@@ -64,35 +69,27 @@ class RegisterService
                     return ['success' => true, 'message' => 'complete_registration', 'temporary_token' => $temporaryToken];
                 }
 
-                // full account exists
-                // TODO: send "you already have an account" email
-                return ['success' => true, 'message' => 'account_exists'];
+                $this->mailer->send(new AccountExistsEmail($existingUser->getEmail()));
+                return ['success' => true, 'message' => 'check your email'];
             }
         }
 
         $status = $this->userStatusRepository->findOneBy(['name' => 'pending_verification']);
 
-        // create a new user with only email and roles in it with status pending_verification
         $user = new User();
         $user->setEmail($input->email);
         $user->setCurrentStatus($status);
         $user->setRoles(['ROLE_ORG_MANAGER']);
 
-        // create a user security row
         $userSecurity = new UserSecurity();
         $userSecurity->setUser($user);
-        $userSecurity->setEmailSendCount(1);
-        $userSecurity->setLastEmailSentAt(new \DateTimeImmutable());
 
-        // create an empty user profile
         $userProfile = new UserProfile();
         $userProfile->setUser($user);
 
-        // generate a 6 digit code token for verification
         $plainCode = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $hashedCode = hash('sha256', $plainCode);
 
-        // insert the user status log
         $statusLog = new UserStatusLog();
         $statusLog->setUser($user);
         $statusLog->setStatus($status);
@@ -111,8 +108,8 @@ class RegisterService
         $this->em->persist($token);
         $this->em->flush();
 
-        // send email to the user with the code
         $this->mailer->send(new VerificationCodeEmail($input->email, $plainCode));
+        $this->userSecurityService->recordEmailSent($user);
 
         return ['success' => true, 'message' => 'check your email'];
     }

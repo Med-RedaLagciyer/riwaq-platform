@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 40px; }
+        .container { background: #fff; padding: 40px; border-radius: 8px; max-width: 500px; margin: 0 auto; }
+        .button { display: inline-block; background: #1c1c1e; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 20px; }
+        .footer { color: #999; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>You already have an account</h2>
+        <p>We noticed you tried to register with <strong>{{ userEmail }}</strong>, but an account with this email already exists.</p>
+        <p>If this was you, simply sign in to your account.</p>
+        <a href="http://localhost:5173/login" class="button">Sign in</a>
+        <p class="footer">If you didn't request this, you can safely ignore this email.</p>
+    </div>
+</body>
+</html>
