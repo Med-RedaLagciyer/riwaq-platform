@@ -1,0 +1,118 @@
+.user-menu__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+}
+
+.user-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.user-menu__divider {
+    height: 1px;
+    background: var(--border-default);
+}
+
+.user-menu__section {
+    padding: 4px;
+}
+
+.user-menu__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: background-color 0.15s ease;
+    text-align: left;
+}
+
+.user-menu__item:hover {
+    background-color: var(--bg-card-alt);
+}
+
+.user-menu__item kbd {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    padding: 2px 5px;
+}
+
+.user-menu__label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    padding: 4px 10px 6px;
+}
+
+.user-menu__theme-switcher {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    margin: 0 4px 4px;
+}
+
+.user-menu__theme-option {
+    padding: 6px;
+    border-radius: 6px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.user-menu__theme-option:hover {
+    color: var(--text-primary);
+}
+
+.user-menu__theme-option--active {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.user-menu__logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--status-error);
+    border: 1px solid var(--status-error);
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+}
+
+.user-menu__logout:hover {
+    background-color: rgba(255, 84, 112, 0.08);
+}

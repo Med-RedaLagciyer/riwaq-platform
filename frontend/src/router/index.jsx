@@ -9,6 +9,7 @@ import AnimatedRoutes from '../components/routing/AnimatedRoutes'
 import ForgotPasswordPage from '../pages/auth/forgot-password/ForgotPasswordPage'
 import VerifyResetCodePage from '../pages/auth/verify-reset-code/VerifyResetCodePage'
 import ResetPasswordPage from '../pages/auth/reset-password/ResetPasswordPage'
+import DashboardLayout from '../layouts/DashboardLayout/DashboardLayout'
 
 const router = createBrowserRouter([
     {
@@ -94,7 +95,9 @@ const router = createBrowserRouter([
                 path: '/management/dashboard',
                 element: (
                     <ProtectedRoute allowedRoles={['ROLE_ORG_MANAGER', 'ROLE_STAFF']}>
-                        <div>Management Dashboard</div>
+                        <DashboardLayout>
+                            <div>Manager Dashboard</div>
+                        </DashboardLayout>
                     </ProtectedRoute>
                 ),
             },
