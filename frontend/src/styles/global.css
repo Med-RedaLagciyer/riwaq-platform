@@ -85,14 +85,15 @@ select {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-input:focus,
-textarea:focus {
+input:focus:not(.form-input--error),
+textarea:focus:not(.form-input--error) {
     border-color: var(--border-focus);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+    background-color: transparent;
 }
 
-[data-theme="dark"] input:focus,
-[data-theme="dark"] textarea:focus {
+[data-theme="dark"] input:focus:not(.form-input--error),
+[data-theme="dark"] textarea:focus:not(.form-input--error) {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 

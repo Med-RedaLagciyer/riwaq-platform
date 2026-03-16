@@ -56,7 +56,13 @@ export default function VerifyEmailPage() {
                     <CodeInput value={code} onChange={setCode} />
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Verifying...' : 'Verify email'}
+                    {mutation.isPending ?
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Verify email'}
                 </button>
             </form>
         </AuthLayout>

@@ -10,6 +10,8 @@ import useToastStore from '../../../store/useToastStore'
 import AuthLayout from '../../../layouts/auth/AuthLayout'
 import PasswordInput from '../../../components/ui/PasswordInput/PasswordInput'
 import './ResetPasswordPage.css'
+import PasswordStrength from '../../../components/ui/PasswordStrength/PasswordStrength'
+import { useWatch } from 'react-hook-form'
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate()
@@ -17,17 +19,18 @@ export default function ResetPasswordPage() {
     const clearTemporaryToken = useAuthStore((state) => state.clearTemporaryToken)
     const clearPendingEmail = useAuthStore((state) => state.clearPendingEmail)
     const addToast = useToastStore((state) => state.addToast)
-
+    
     useEffect(() => {
         if (!temporaryToken) {
             navigate('/forgot-password')
         }
     }, [])
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    
+    const { register, handleSubmit, formState: { errors }, control } = useForm({
         resolver: zodResolver(resetPasswordSchema),
     })
-
+    
+    const passwordValue = useWatch({ control, name: 'password' })
     const mutation = useMutation({
         mutationFn: resetPassword,
         onSuccess: () => {
@@ -61,6 +64,7 @@ export default function ResetPasswordPage() {
                         {...register('password')}
                     />
                     {errors.password && <span className="form-error">{errors.password.message}</span>}
+                    <PasswordStrength password={passwordValue || ''} />
                 </div>
                 <div className="form-group">
                     <div className="form-label">Confirm password</div>
@@ -72,7 +76,13 @@ export default function ResetPasswordPage() {
                     {errors.confirmPassword && <span className="form-error">{errors.confirmPassword.message}</span>}
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Resetting...' : 'Reset password'}
+                    {mutation.isPending ?
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Reset password'}
                 </button>
             </form>
         </AuthLayout>

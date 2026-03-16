@@ -13,14 +13,16 @@ import getHomeRoute from '../../../utils/getHomeRoute'
 import { useEffect } from 'react'
 import { useWatch } from 'react-hook-form'
 import generateUsernameSuggestions from '../../../utils/generateUsernameSuggestions'
+import PasswordStrength from '../../../components/ui/PasswordStrength/PasswordStrength'
 
 export default function CompleteRegistrationPage() {
-    const { register, handleSubmit, formState: { errors }, control, setValue } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, setValue} = useForm({
         resolver: zodResolver(completeRegistrationSchema),
     })
 
     const firstName = useWatch({ control, name: 'firstName' })
     const lastName = useWatch({ control, name: 'lastName' })
+    const passwordValue = useWatch({ control, name: 'password' })
 
     const suggestions = generateUsernameSuggestions(firstName, lastName)
 
@@ -100,6 +102,7 @@ export default function CompleteRegistrationPage() {
                     <div className="form-label">Password</div>
                     <PasswordInput className={`form-input ${errors.password ? 'form-input--error' : ''}`} placeholder="Password" {...register('password')} />
                     {errors.password && <span className="form-error">{errors.password.message}</span>}
+                    <PasswordStrength password={passwordValue || ''} />
                 </div>
                 <div className="form-group">
                     <div className="form-label">Confirm password</div>
@@ -107,7 +110,13 @@ export default function CompleteRegistrationPage() {
                     {errors.confirmPassword && <span className="form-error">{errors.confirmPassword.message}</span>}
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Saving...' : 'Complete registration'}
+                    {mutation.isPending ? 
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Complete registration'}
                 </button>
             </form>
         </AuthLayout>

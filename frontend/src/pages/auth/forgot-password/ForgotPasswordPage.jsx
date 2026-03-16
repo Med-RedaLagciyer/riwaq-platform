@@ -53,7 +53,13 @@ export default function ForgotPasswordPage() {
                     {errors.email && <span className="form-error">{errors.email.message}</span>}
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Sending...' : 'Send reset code'}
+                    {mutation.isPending ? 
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Send reset code'}
                 </button>
             </form>
         </AuthLayout>

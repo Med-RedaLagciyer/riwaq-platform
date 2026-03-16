@@ -66,10 +66,13 @@ export default function RegisterPage() {
                     )}
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Sending...' : 'Continue'}
-                </button>
-                <button type="button" onClick={() => addToast('Email sent successfully', 'success')}>
-                    Test toast
+                    {mutation.isPending ?
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Continue'}
                 </button>
                 <a href="/login" className="auth-link">
                     Already have an account? Sign in

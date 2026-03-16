@@ -55,7 +55,13 @@ export default function VerifyResetCodePage() {
                     <CodeInput value={code} onChange={setCode} />
                 </div>
                 <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                    {mutation.isPending ? 'Verifying...' : 'Verify code'}
+                    {mutation.isPending ?
+                        <span className="btn-loading">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                        : 'Verify code'}
                 </button>
             </form>
         </AuthLayout>

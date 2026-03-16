@@ -88,7 +88,9 @@
 }
 
 .form-input--error {
-    border-color: var(--status-error) !important;
+    border-color: transparent;
+    box-shadow: 0px 0px 0px 2px var(--status-error);
+    background-color: transparent;
 }
 
 .form-error {
@@ -107,6 +109,7 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
     position: relative;
     overflow: hidden;
+    min-height: 52px;
 
     background: linear-gradient(180deg, #3a3a3c 0%, #1c1c1e 60%, #111113 100%);
     color: #F5F5F7;
@@ -152,6 +155,50 @@
 [data-theme="dark"] .primary-button__spinner {
     border-color: rgba(0, 0, 0, 0.2);
     border-top-color: #1C1C1E;
+}
+
+.primary-button.loading::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: dotFlashing 0.8s infinite;
+    margin-left: 8px;
+}
+
+@keyframes dotFlashing {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+.btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.btn-loading span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: btnDot 0.6s infinite alternate;
+}
+
+.btn-loading span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.btn-loading span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes btnDot {
+    from { opacity: 0.3; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
 }
 
 .auth-back {

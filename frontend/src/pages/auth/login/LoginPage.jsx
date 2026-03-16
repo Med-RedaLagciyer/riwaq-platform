@@ -112,7 +112,13 @@ export default function LoginPage() {
                                 )}
                             </div>
                             <button type="submit" className="primary-button" disabled={mutation.isPending}>
-                                {mutation.isPending ? 'Signing in...' : 'Sign in'}
+                                {mutation.isPending ?
+                                    <span className="btn-loading">
+                                        <span />
+                                        <span />
+                                        <span />
+                                    </span> 
+                                    : 'Sign in'}
                             </button>
 
                             <a href="/forgot-password" className="auth-link">
