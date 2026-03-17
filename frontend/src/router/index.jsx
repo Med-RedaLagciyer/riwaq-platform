@@ -95,7 +95,7 @@ const router = createBrowserRouter([
                 path: '/management/dashboard',
                 element: (
                     <ProtectedRoute allowedRoles={['ROLE_ORG_MANAGER', 'ROLE_STAFF']}>
-                        <DashboardLayout>
+                        <DashboardLayout title="Dashboard">
                             <div>Manager Dashboard</div>
                         </DashboardLayout>
                     </ProtectedRoute>

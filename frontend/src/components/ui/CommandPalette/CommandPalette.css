@@ -33,7 +33,7 @@
     background: transparent;
     border: none;
     outline: none;
-    font-family: var(--font-ui);
+    font-family: var(--font-body);
     font-size: 15px;
     color: var(--text-primary);
     width: 100%;

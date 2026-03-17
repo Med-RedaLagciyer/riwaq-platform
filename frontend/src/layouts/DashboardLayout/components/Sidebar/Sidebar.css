@@ -217,7 +217,7 @@
 
 .sidebar__user-email {
     display: block;
-    font-family: var(--font-ui);
+    font-family: var(--font-body);
     font-size: 11px;
     color: var(--text-muted);
     white-space: nowrap;
