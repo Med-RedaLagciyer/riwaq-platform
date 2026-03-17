@@ -1,41 +1,16 @@
 import './Sidebar.css'
-import { NavLink } from 'react-router-dom'
-import CommandPalette from '../../../../components/ui/CommandPalette/CommandPalette'
 import { useState } from 'react'
 import useAuthStore from '../../../../store/useAuthStore'
 import UserMenu from '../UserMenu/UserMenu'
-import { LayoutDashboard, Building2, Settings, ChevronDown, Search } from 'lucide-react'
+import { ChevronDown, Search } from 'lucide-react'
 import Tooltip from '../../../../components/ui/Tooltip/Tooltip'
 import useSidebarResize from '../../hooks/useSidebarResize'
-import useCommandPalette from '../../hooks/useCommandPalette'
 import NavItem from '../NavItem/NavItem'
 
-const navGroups = [
-    {
-        items: [
-            { label: 'Dashboard', path: '/management/dashboard', icon: LayoutDashboard },
-            {
-                label: 'Organisations',
-                icon: Building2,
-                children: [
-                    { label: 'All Organisations', path: '/management/organisations' },
-                    { label: 'Create New', path: '/management/organisations/create' },
-                ]
-            },
-        ]
-    },
-    {
-        items: [
-            { label: 'Settings', path: '/management/settings', icon: Settings },
-        ]
-    },
-]
-
-export default function Sidebar() {
+export default function Sidebar({ navGroups, openPalette }) {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const user = useAuthStore((state) => state.user)
     const { sidebarRef, width, isDragging, isCollapsed, handleMouseDown } = useSidebarResize()
-    const { isOpen: isPaletteOpen, open: openPalette, close: closePalette } = useCommandPalette()
 
     const allItems = navGroups.flatMap(group => group.items)
 
@@ -69,13 +44,6 @@ export default function Sidebar() {
                         <kbd>⌘K</kbd>
                     </button>
                 )}
-
-                <CommandPalette
-                    key={isPaletteOpen}
-                    items={allItems}
-                    isOpen={isPaletteOpen}
-                    onClose={closePalette}
-                />
 
                 {navGroups.map((group, groupIndex) => (
                     <div key={groupIndex} className="sidebar__nav-group">

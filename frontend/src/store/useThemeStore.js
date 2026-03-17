@@ -1,18 +1,20 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+const getSystemTheme = () =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
+const applyTheme = (theme) => {
+    const resolved = theme === 'system' ? getSystemTheme() : theme
+    document.documentElement.setAttribute('data-theme', resolved)
+}
+
 const useThemeStore = create(
     persist(
         (set) => ({
             theme: 'light',
-            toggleTheme: () =>
-                set((state) => {
-                    const next = state.theme === 'light' ? 'dark' : 'light'
-                    document.documentElement.setAttribute('data-theme', next)
-                    return { theme: next }
-                }),
             setTheme: (theme) => {
-                document.documentElement.setAttribute('data-theme', theme)
+                applyTheme(theme)
                 set({ theme })
             },
         }),
@@ -20,7 +22,7 @@ const useThemeStore = create(
             name: 'riwaq-theme',
             onRehydrateStorage: () => (state) => {
                 if (state?.theme) {
-                    document.documentElement.setAttribute('data-theme', state.theme)
+                    applyTheme(state.theme)
                 }
             },
         }
