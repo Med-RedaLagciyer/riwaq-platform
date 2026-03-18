@@ -116,3 +116,27 @@
 .user-menu__logout:hover {
     background-color: rgba(255, 84, 112, 0.08);
 }
+
+.user-menu__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    padding: 4px 10px 6px;
+}
+
+.user-menu__label kbd {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    padding: 2px 5px;
+    letter-spacing: 0;
+    font-weight: 500;
+}

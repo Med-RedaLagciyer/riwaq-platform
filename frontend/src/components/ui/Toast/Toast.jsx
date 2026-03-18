@@ -49,12 +49,15 @@ function ToastItem({ toast, index, total, isExpanded }) {
                 transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease',
             }}
         >
-            <div
-                className={`toast toast--${toast.type} ${exiting ? 'toast--exit' : 'toast--enter'}`}
-            >
-                <span className="toast__dot" />
-                <span className="toast__message">{toast.message}</span>
-                <button className="toast__close" onClick={dismiss}>✕</button>
+            <div className={`toast toast--${toast.type} ${exiting ? 'toast--exit' : 'toast--enter'} ${toast.subtext ? 'toast--with-subtext' : ''}`}>
+                <div className="toast__main">
+                    <span className="toast__dot" />
+                    <span className="toast__title">{toast.title}</span>
+                    <button className="toast__close" onClick={dismiss}>✕</button>
+                </div>
+                {toast.subtext && (
+                    <span className="toast__subtext">{toast.subtext}</span>
+                )}
             </div>
         </div>
     )

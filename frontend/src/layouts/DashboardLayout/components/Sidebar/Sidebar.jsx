@@ -7,7 +7,7 @@ import Tooltip from '../../../../components/ui/Tooltip/Tooltip'
 import useSidebarResize from '../../hooks/useSidebarResize'
 import NavItem from '../NavItem/NavItem'
 
-export default function Sidebar({ navGroups, openPalette }) {
+export default function Sidebar({ navGroups, onSearchOpen }) {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const user = useAuthStore((state) => state.user)
     const { sidebarRef, width, isDragging, isCollapsed, handleMouseDown } = useSidebarResize()
@@ -32,16 +32,16 @@ export default function Sidebar({ navGroups, openPalette }) {
                     <Tooltip text="⌘K" position="right">
                         <button
                             className="sidebar__nav-item sidebar__search--collapsed"
-                            onClick={openPalette}
+                            onClick={onSearchOpen}
                         >
                             <Search size={18} />
                         </button>
                     </Tooltip>
                 ) : (
-                    <button className="sidebar__search" onClick={openPalette}>
+                    <button className="sidebar__search" onClick={onSearchOpen}>
                         <Search size={14} />
                         <span>Search...</span>
-                        <kbd>⌘K</kbd>
+                        <kbd>⌘ + ⇧ + F</kbd>
                     </button>
                 )}
 

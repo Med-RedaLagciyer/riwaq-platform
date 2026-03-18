@@ -55,7 +55,10 @@ export default function UserMenu({ isOpen, onClose }) {
                         <div className="user-menu__divider" />
 
                         <div className="user-menu__section">
-                            <div className="user-menu__label">Theme</div>
+                            <div className="user-menu__label">
+                                Theme
+                                <kbd>⌘ + ⇧ + L</kbd>
+                            </div>
                             <div className="user-menu__theme-switcher">
                                 <button
                                     className={`user-menu__theme-option ${theme === 'system' ? 'user-menu__theme-option--active' : ''}`}

@@ -1,4 +1,4 @@
-.command-palette__overlay {
+.search-modal__overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
@@ -9,7 +9,7 @@
     padding-top: 120px;
 }
 
-.command-palette {
+.search-modal {
     width: 100%;
     max-width: 480px;
     background: var(--bg-card);
@@ -19,7 +19,7 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
 }
 
-.command-palette__search {
+.search-modal__search {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -28,7 +28,7 @@
     color: var(--text-muted);
 }
 
-.command-palette__input {
+.search-modal__input {
     flex: 1;
     background: transparent;
     border: none;
@@ -41,19 +41,19 @@
     padding: 0;
 }
 
-.command-palette__input:focus {
+.search-modal__input:focus {
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
 }
 
-.command-palette__results {
+.search-modal__results {
     padding: 8px;
     max-height: 320px;
     overflow-y: auto;
 }
 
-.command-palette__item {
+.search-modal__item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -67,7 +67,7 @@
     text-align: left;
 }
 
-.command-palette__item:hover {
+.search-modal__item:hover {
     background-color: var(--bg-card-alt);
     color: var(--text-primary);
 }

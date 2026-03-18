@@ -11,11 +11,17 @@ const applyTheme = (theme) => {
 
 const useThemeStore = create(
     persist(
-        (set) => ({
+        (set, get) => ({
             theme: 'light',
             setTheme: (theme) => {
                 applyTheme(theme)
                 set({ theme })
+            },
+            cycleTheme: () => {
+                const { theme } = get();
+                const next = theme === 'system' ? 'light' : theme === 'light' ? 'dark' : 'system';
+                applyTheme(next);
+                set({ theme: next });
             },
         }),
         {
