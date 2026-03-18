@@ -26,15 +26,43 @@ class UserAction
     #[ORM\Column(length: 100)]
     private ?string $label = null;
 
-    public function getPage(): ?UserPage { return $this->page; }
-    public function setPage(?UserPage $page): static { $this->page = $page; return $this; }
+    public function getPage(): ?UserPage
+    {
+        return $this->page;
+    }
+    public function setPage(?UserPage $page): static
+    {
+        $this->page = $page;
+        return $this;
+    }
 
-    public function getClassName(): ?string { return $this->className; }
-    public function setClassName(?string $className): static { $this->className = $className; return $this; }
+    public function getClassName(): ?string
+    {
+        return $this->className;
+    }
+    public function setClassName(?string $className): static
+    {
+        $this->className = $className;
+        return $this;
+    }
 
-    public function getIdTag(): ?string { return $this->idTag; }
-    public function setIdTag(?string $idTag): static { $this->idTag = $idTag; return $this; }
+    public function getIdTag(): ?string
+    {
+        return $this->idTag;
+    }
+    public function setIdTag(?string $idTag): static
+    {
+        $this->idTag = $idTag;
+        return $this;
+    }
 
-    public function getLabel(): ?string { return $this->label; }
-    public function setLabel(string $label): static { $this->label = $label; return $this; }
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+    public function setLabel(string $label): static
+    {
+        $this->label = $label;
+        return $this;
+    }
 }
