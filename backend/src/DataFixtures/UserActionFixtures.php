@@ -12,7 +12,7 @@ class UserActionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $pages = ['dashboard', 'organisations', 'members', 'settings', 'students', 'professors', 'staff'];
+        $pages = ['dashboard', 'organisations', 'members', 'settings', 'students', 'instructors', 'staff'];
 
         foreach ($pages as $ref) {
             $action = new UserAction();

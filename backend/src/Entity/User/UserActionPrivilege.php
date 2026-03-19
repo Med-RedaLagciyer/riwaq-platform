@@ -8,7 +8,7 @@ use App\Repository\User\UserActionPrivilegeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserActionPrivilegeRepository::class)]
-#[ORM\Table(name: 'us_011_user_actions')]
+#[ORM\Table(name: 'us_011_user_action_privileges')]
 #[ORM\UniqueConstraint(columns: ['user_id', 'action_id', 'org_id'])]
 class UserActionPrivilege
 {

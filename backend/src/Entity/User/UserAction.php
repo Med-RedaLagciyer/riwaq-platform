@@ -8,7 +8,7 @@ use App\Repository\User\UserActionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserActionRepository::class)]
-#[ORM\Table(name: 'us_010_actions')]
+#[ORM\Table(name: 'us_010_user_actions')]
 class UserAction
 {
     use HasUuidV7;

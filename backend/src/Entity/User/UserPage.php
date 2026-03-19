@@ -7,7 +7,7 @@ use App\Repository\User\UserPageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserPageRepository::class)]
-#[ORM\Table(name: 'us_009_pages')]
+#[ORM\Table(name: 'us_009_user_pages')]
 class UserPage
 {
     use HasUuidV7;

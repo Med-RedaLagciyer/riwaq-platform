@@ -2,39 +2,39 @@
 
 namespace App\Repository\Organisation;
 
-use App\Entity\Organisation\UserOrganisation;
+use App\Entity\OrganisationVisibility;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserOrganisation>
+ * @extends ServiceEntityRepository<OrganisationVisibility>
  */
-class UserOrganisationRepository extends ServiceEntityRepository
+class OrganisationVisibilityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserOrganisation::class);
+        parent::__construct($registry, OrganisationVisibility::class);
     }
 
     //    /**
-    //     * @return UserOrganisation[] Returns an array of UserOrganisation objects
+    //     * @return OrganisationVisibility[] Returns an array of OrganisationVisibility objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
+    //        return $this->createQueryBuilder('o')
+    //            ->andWhere('o.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
+    //            ->orderBy('o.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?UserOrganisation
+    //    public function findOneBySomeField($value): ?OrganisationVisibility
     //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
+    //        return $this->createQueryBuilder('o')
+    //            ->andWhere('o.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

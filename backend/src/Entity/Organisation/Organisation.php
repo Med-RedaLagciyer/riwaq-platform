@@ -6,6 +6,7 @@ use App\Entity\Traits\HasCreatedAt;
 use App\Entity\Traits\HasUpdatedAt;
 use App\Entity\Traits\HasUuidV7;
 use App\Entity\User\User;
+use App\Enum\OrganisationType;
 use App\Repository\Organisation\OrganisationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,18 @@ class Organisation
 
     #[ORM\Column]
     private bool $isActive = true;
+
+    #[ORM\Column(length: 50, enumType: OrganisationType::class)]
+    private ?OrganisationType $type = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logoPath = null;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: false)]
@@ -64,6 +77,46 @@ class Organisation
     {
         $this->isActive = $isActive;
 
+        return $this;
+    }
+
+    public function getType(): ?OrganisationType
+    {
+        return $this->type;
+    }
+    public function setType(OrganisationType $type): static
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getLogoPath(): ?string
+    {
+        return $this->logoPath;
+    }
+    public function setLogoPath(?string $logoPath): static
+    {
+        $this->logoPath = $logoPath;
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
         return $this;
     }
 

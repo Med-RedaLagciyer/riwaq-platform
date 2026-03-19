@@ -31,7 +31,7 @@ class UserPageFixtures extends Fixture
         // Children
         $children = [
             ['label' => 'Students', 'path' => '/management/members/students', 'icon' => 'GraduationCap', 'order' => 1, 'parent' => 'members'],
-            ['label' => 'Professors', 'path' => '/management/members/professors', 'icon' => 'BookOpen', 'order' => 2, 'parent' => 'members'],
+            ['label' => 'Instructors', 'path' => '/management/members/instructors', 'icon' => 'BookOpen', 'order' => 2, 'parent' => 'members'],
             ['label' => 'Staff', 'path' => '/management/members/staff', 'icon' => 'Briefcase', 'order' => 3, 'parent' => 'members'],
         ];
 
