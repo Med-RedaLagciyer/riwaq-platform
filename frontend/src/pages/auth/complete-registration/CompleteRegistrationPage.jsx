@@ -44,11 +44,11 @@ export default function CompleteRegistrationPage() {
         onSuccess: (response) => {
             clearPendingEmail()
             clearTemporaryToken()
-            const { user, token, role, refresh_token } = response.data
-            setAuth(user, token, role, refresh_token)
+            const { user, token, refresh_token } = response.data
+            setAuth(user, token, refresh_token)
+            
+            navigate(getHomeRoute())
             addToast('Welcome to Riwaq!', 'success')
-
-            navigate(getHomeRoute(role))
         },
         onError: (error) => {
             addToast(error.response?.data?.message || 'Something went wrong', 'error')

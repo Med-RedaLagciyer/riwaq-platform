@@ -91,7 +91,6 @@ class LoginService
             'message' => 'Login successful',
             'token' => $token,
             'refresh_token' => $refreshToken,
-            'role' => $user->getRoles(),
             'user' => [
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),

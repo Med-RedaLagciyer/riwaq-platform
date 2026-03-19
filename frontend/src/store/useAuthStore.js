@@ -6,13 +6,11 @@ const useAuthStore = create(
         (set) => ({
             user: null,
             token: null,
-            role: null,
             refreshToken: null,
-            setAuth: (user, token, role, refreshToken) => set({ user, token, role, refreshToken }),
+            setAuth: (user, token, refreshToken) => set({ user, token, refreshToken }),
             clearAuth: () => set({
                 user: null,
                 token: null,
-                role: null,
                 refreshToken: null,
                 pendingEmail: null,
                 temporaryToken: null

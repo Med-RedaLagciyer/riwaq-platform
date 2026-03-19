@@ -3,10 +3,10 @@ import useAuthStore from '../../store/useAuthStore'
 import getHomeRoute from '../../utils/getHomeRoute'
 
 export default function GuestRoute({ children }) {
-    const { token, role } = useAuthStore()
+    const { token } = useAuthStore()
 
     if (token) {
-        return <Navigate to={getHomeRoute(role)} replace />
+        return <Navigate to={getHomeRoute()} replace />
     }
 
     return children

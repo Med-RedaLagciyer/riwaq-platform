@@ -79,8 +79,8 @@ class RegisterService
         $user = new User();
         $user->setEmail($input->email);
         $user->setCurrentStatus($status);
-        $user->setRoles(['ROLE_ORG_MANAGER']);
-
+        $user->setRoles([]);
+        
         $userSecurity = new UserSecurity();
         $userSecurity->setUser($user);
 

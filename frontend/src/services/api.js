@@ -41,7 +41,7 @@ api.interceptors.response.use((response) => response, async (error) => {
             const { token, refresh_token } = response.data
 
             const state = useAuthStore.getState()
-            useAuthStore.getState().setAuth(state.user, token, state.role, refresh_token)
+            useAuthStore.getState().setAuth(state.user, token, refresh_token)
 
             return axios({
                 method: originalRequest.method,

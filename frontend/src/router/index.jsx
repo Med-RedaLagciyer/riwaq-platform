@@ -76,28 +76,36 @@ const router = createBrowserRouter([
                 ),
             },
             {
+                path: '/management/dashboard',
+                element: (
+                    <ProtectedRoute>
+                        <DashboardLayout title="Dashboard">
+                            <div>Manager Dashboard</div>
+                        </DashboardLayout>
+                    </ProtectedRoute>
+                ),
+            },
+            {
                 path: '/student/dashboard',
                 element: (
-                    <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <ProtectedRoute>
                         <div>Student Dashboard</div>
                     </ProtectedRoute>
                 ),
             },
             {
-                path: '/professor/dashboard',
+                path: '/instructor/dashboard',
                 element: (
-                    <ProtectedRoute allowedRoles={['ROLE_PROFESSOR']}>
-                        <div>Professor Dashboard</div>
+                    <ProtectedRoute>
+                        <div>Instructor Dashboard</div>
                     </ProtectedRoute>
                 ),
             },
             {
-                path: '/management/dashboard',
+                path: '/pick-context',
                 element: (
-                    <ProtectedRoute allowedRoles={['ROLE_ORG_MANAGER', 'ROLE_STAFF']}>
-                        <DashboardLayout title="Dashboard">
-                            <div>Manager Dashboard</div>
-                        </DashboardLayout>
+                    <ProtectedRoute>
+                        <div>Pick Context</div>
                     </ProtectedRoute>
                 ),
             },

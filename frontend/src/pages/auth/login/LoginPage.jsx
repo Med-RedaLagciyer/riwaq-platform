@@ -22,10 +22,10 @@ export default function LoginPage() {
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: (response) => {
-            const { user, token, role, refresh_token } = response.data
-            setAuth(user, token, role, refresh_token)
+            const { user, token, refresh_token } = response.data
+            setAuth(user, token, refresh_token)
+            navigate(getHomeRoute())
             addToast('Welcome back!', 'success')
-            navigate(getHomeRoute(role))
         },
         onError: (error) => {
             addToast(error.response?.data?.message || 'Something went wrong', 'error')
@@ -117,7 +117,7 @@ export default function LoginPage() {
                                         <span />
                                         <span />
                                         <span />
-                                    </span> 
+                                    </span>
                                     : 'Sign in'}
                             </button>
 
