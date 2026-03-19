@@ -10,6 +10,7 @@ import ForgotPasswordPage from '../pages/auth/forgot-password/ForgotPasswordPage
 import VerifyResetCodePage from '../pages/auth/verify-reset-code/VerifyResetCodePage'
 import ResetPasswordPage from '../pages/auth/reset-password/ResetPasswordPage'
 import DashboardLayout from '../layouts/DashboardLayout/DashboardLayout'
+import PickContextPage from '../pages/pick-context/PickContextPage'
 
 const router = createBrowserRouter([
     {
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
                 path: '/pick-context',
                 element: (
                     <ProtectedRoute>
-                        <div>Pick Context</div>
+                        <PickContextPage />
                     </ProtectedRoute>
                 ),
             },

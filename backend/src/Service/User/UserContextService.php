@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Organisation;
+namespace App\Service\User;
 
 use App\Entity\User\User;
 use App\Repository\Organisation\OrganisationMemberRepository;

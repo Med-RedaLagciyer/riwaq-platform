@@ -2,7 +2,6 @@
 
 namespace App\Controller\Organisation;
 
-use App\Service\Organisation\UserContextService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,20 +16,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class OrganisationController extends AbstractController
 {
     public function __construct(
-        private UserContextService $userContextService,
         private ValidatorInterface $validator,
     ) {}
-
-    #[Route('/me/contexts', name: 'me_contexts', methods: ['GET'])]
-    public function getContexts(#[CurrentUser] User $user): JsonResponse
-    {
-        $contexts = $this->userContextService->getContextsForUser($user);
-
-        return $this->json([
-            'success' => true,
-            'contexts' => $contexts,
-        ]);
-    }
 
     #[Route('/organisations', name: 'create_organisation', methods: ['POST'])]
     public function create(
