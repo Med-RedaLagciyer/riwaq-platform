@@ -3,6 +3,7 @@
 namespace App\Repository\Organisation;
 
 use App\Entity\Organisation\OrganisationMember;
+use App\Entity\User\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,15 @@ class OrganisationMemberRepository extends ServiceEntityRepository
         parent::__construct($registry, OrganisationMember::class);
     }
 
-    //    /**
-    //     * @return OrganisationMember[] Returns an array of OrganisationMember objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('o.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?OrganisationMember
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.organisation', 'o')
+            ->addSelect('o')
+            ->where('m.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('o.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
